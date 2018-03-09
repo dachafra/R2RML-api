@@ -1,22 +1,12 @@
 package eu.optique.r2rml.api;
 
-import eu.optique.r2rml.api.model.GraphMap;
-import eu.optique.r2rml.api.model.InverseExpression;
-import eu.optique.r2rml.api.model.Join;
-import eu.optique.r2rml.api.model.LogicalTable;
-import eu.optique.r2rml.api.model.ObjectMap;
-import eu.optique.r2rml.api.model.PredicateMap;
-import eu.optique.r2rml.api.model.PredicateObjectMap;
-import eu.optique.r2rml.api.model.R2RMLView;
-import eu.optique.r2rml.api.model.RefObjectMap;
-import eu.optique.r2rml.api.model.SQLBaseTableOrView;
-import eu.optique.r2rml.api.model.SubjectMap;
-import eu.optique.r2rml.api.model.Template;
-import eu.optique.r2rml.api.model.TriplesMap;
+import eu.optique.r2rml.api.model.*;
+import jdk.nashorn.internal.ir.FunctionCall;
 import org.apache.commons.rdf.api.BlankNodeOrIRI;
 import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDFTerm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -244,8 +234,26 @@ public interface MappingFactory {
      * @param parentColumn The parent column of the Join.
      * @return The created Join.
      */
-    Join createJoinCondition(String childColumn, String parentColumn);
+    Join createJoinCondition(TransFunct childColumn, TransFunct parentColumn);
 
+
+    /**
+     * Create a new Function with the set of functions and set of ColumnFunctions
+     *
+     * @param functions the functions will apply to the set of columns
+     * @param columnFunction the set of individual columns and functions
+     * @return  The created Function
+     */
+    TransFunct createTransFunct(ArrayList<IRI> functions, ArrayList<ColumnFunction> columnFunction);
+
+    /**
+     * Create a new Function with the set of functions and set of ColumnFunctions
+     *
+     * @param functions the functions will apply to the column
+     * @param columName the name of the column
+     * @return  The created ColumnFunction
+     */
+    ColumnFunction createColumnFunction (ArrayList<IRI> functions, String columName);
     /**
      * Create a new template.
      *

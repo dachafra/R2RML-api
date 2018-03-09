@@ -28,20 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import eu.optique.r2rml.api.model.GraphMap;
-import eu.optique.r2rml.api.model.LogicalTable;
+import eu.optique.r2rml.api.model.*;
 import eu.optique.r2rml.api.MappingFactory;
-import eu.optique.r2rml.api.model.ObjectMap;
-import eu.optique.r2rml.api.model.PredicateMap;
-import eu.optique.r2rml.api.model.PredicateObjectMap;
-import eu.optique.r2rml.api.model.R2RMLMappingCollection;
 import eu.optique.r2rml.api.R2RMLMappingManager;
-import eu.optique.r2rml.api.model.R2RMLView;
-import eu.optique.r2rml.api.model.R2RMLVocabulary;
-import eu.optique.r2rml.api.model.RefObjectMap;
-import eu.optique.r2rml.api.model.SubjectMap;
-import eu.optique.r2rml.api.model.TermMap;
-import eu.optique.r2rml.api.model.TriplesMap;
 import org.apache.commons.rdf.api.BlankNode;
 import org.apache.commons.rdf.api.BlankNodeOrIRI;
 import org.apache.commons.rdf.api.Graph;
@@ -59,7 +48,7 @@ import static java.util.stream.Collectors.toSet;
  * 
  * @author Timea Bagosi
  * @author Martin G. Skjæveland
- * 
+ * @author David Chaves-Fraga
  */
 public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
 
@@ -602,19 +591,20 @@ public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
 
 			} else if (type.equals(getRDF().createIRI(R2RMLVocabulary.PROP_GRAPH_MAP))) {
 				// return the corresponding graphMap
-                switch (termMapType){
-                    case COLUMN_VALUED:
-                        return mfact.createGraphMap(((Literal) resource).getLexicalForm());
-                    case CONSTANT_VALUED:
-                        return mfact.createGraphMap((IRI)resource);
-                    case TEMPLATE_VALUED:
-                        return mfact.createGraphMap(mfact.createTemplate(((Literal) resource).getLexicalForm()));
-                }
+				switch (termMapType) {
+					case COLUMN_VALUED:
+						return mfact.createGraphMap(((Literal) resource).getLexicalForm());
+					case CONSTANT_VALUED:
+						return mfact.createGraphMap((IRI) resource);
+					case TEMPLATE_VALUED:
+						return mfact.createGraphMap(mfact.createTemplate(((Literal) resource).getLexicalForm()));
+				}
 			}
 		}
 		return null;
 
 	}
+
 
 	/**
 	 * Reads and returns the RefObjectMaps of a given Resource node.
@@ -632,7 +622,7 @@ public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
 	private List<RefObjectMap> readRefObjectMaps(BlankNodeOrIRI pomNode, BlankNodeOrIRI tmNode)
 			throws InvalidR2RMLMappingException {
 		List<RefObjectMap> refObjectMaps = new ArrayList<RefObjectMap>();
-
+		TransFunct childFunction,parentFunction;
 		// look for objectMap declaration
         Collection<RDFTerm> objectMapNodes = graph.stream(pomNode, getRDF().createIRI(R2RMLVocabulary.PROP_OBJECT_MAP), null)
                 .map(Triple::getObject)
@@ -662,30 +652,87 @@ public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
 			refObjectMap.setParentLogicalTable(readLogicalTable(parentNode));
 
 			// look for join condition
-            Collection<RDFTerm> joinConditions = graph
-                    .stream(objectNode, getRDF().createIRI(R2RMLVocabulary.PROP_JOIN_CONDITION), null)
+            Collection<RDFTerm> joinConditions = graph.stream(objectNode, getRDF().createIRI(R2RMLVocabulary.PROP_JOIN_CONDITION), null)
                     .map(Triple::getObject)
                     .collect(toSet());
 			for (RDFTerm value : joinConditions) {
 				BlankNodeOrIRI joinCondition = (BlankNodeOrIRI) value;
 
 				// look for child declaration
-                String childColumn = ((Literal) readObjectInMappingGraph(joinCondition,
-                        getRDF().createIRI(R2RMLVocabulary.PROP_CHILD))).getLexicalForm();
+				 Collection<RDFTerm> children = graph.stream(joinCondition, getRDF().createIRI(RMLCVocabulary.PROP_CHILD), null)
+						 .map(Triple::getObject)
+						 .collect(toSet());
 
-				// look for parent declaration
-                String parentColumn = ((Literal) readObjectInMappingGraph(joinCondition,
-                        getRDF().createIRI(R2RMLVocabulary.PROP_PARENT))).getLexicalForm();
+				 if(children.size()!=1){
+					 throw new InvalidR2RMLMappingException(
+							 "Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple children.");
+				 } else {
+					 BlankNodeOrIRI child = (BlankNodeOrIRI) children.toArray()[0];
+					 childFunction=readTransFunct(child);
+				 }
+
+
+				Collection<RDFTerm> parents = graph.stream(joinCondition, getRDF().createIRI(RMLCVocabulary.PROP_PARENT), null)
+						.map(Triple::getObject)
+						.collect(toSet());
+
+				if(parents.size()!=1){
+					throw new InvalidR2RMLMappingException(
+							"Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple parents.");
+				} else {
+					BlankNodeOrIRI parent = (BlankNodeOrIRI) parents.toArray()[0];
+					parentFunction=readTransFunct(parent);
+				}
 
 				// add join condition to refobjMap instance
-				if (childColumn != null && parentColumn != null)
-					refObjectMap.addJoinCondition(mfact.createJoinCondition(
-							childColumn, parentColumn));
+				if (childFunction != null && parentFunction != null)
+					refObjectMap.addJoinCondition(mfact.createJoinCondition(childFunction, parentFunction));
 			}
 			refObjectMaps.add(refObjectMap);
 		}
 
 		return refObjectMaps;
+	}
+
+
+	private TransFunct readTransFunct(BlankNodeOrIRI function){
+		ArrayList<ColumnFunction> columnFunctions = new ArrayList<>();
+
+		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_GENERAL_TRANS_FUNCTION), null)
+				.map(Triple::getObject)
+				.collect(toSet());
+        ArrayList<IRI> functions = new ArrayList<>();
+        for(RDFTerm value: aux){
+            functions.add((IRI) value);
+        }
+
+
+		Collection<RDFTerm> columnFunct = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_COLUMN_FUNCTION), null)
+				.map(Triple::getObject)
+				.collect(toSet());
+
+
+		for(RDFTerm value : columnFunct){
+			columnFunctions.add(readColumnFunctions( (BlankNodeOrIRI) value));
+		}
+
+		return mfact.createTransFunct(functions,columnFunctions);
+	}
+
+	private ColumnFunction readColumnFunctions(BlankNodeOrIRI columnFunction){
+
+        String columnName = ((Literal) readObjectInMappingGraph(columnFunction,getRDF().createIRI(R2RMLVocabulary.PROP_COLUMN))).getLexicalForm();
+
+        Collection<RDFTerm> columnFunct = graph.stream(columnFunction, getRDF().createIRI(RMLCVocabulary.PROP_INDIVIDUAL_TRANS_FUNCTION), null)
+                .map(Triple::getObject)
+                .collect(toSet());
+
+        ArrayList<IRI> functionsAux = new ArrayList<>();
+        for (RDFTerm value : columnFunct) {
+            functionsAux.add((IRI) value);
+        }
+
+		return mfact.createColumnFunction(functionsAux,columnName);
 	}
 
     private RDF getRDF() {

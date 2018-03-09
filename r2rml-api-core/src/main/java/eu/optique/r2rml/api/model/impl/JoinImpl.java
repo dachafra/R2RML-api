@@ -24,6 +24,7 @@ import java.util.Set;
 
 import eu.optique.r2rml.api.model.Join;
 import eu.optique.r2rml.api.model.R2RMLVocabulary;
+import eu.optique.r2rml.api.model.TransFunct;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
 
@@ -31,13 +32,14 @@ import org.apache.commons.rdf.api.Triple;
  * An implementation of Join.
  * 
  * @author Marius Strandhaug
+ * @author David Chaves-Fraga
  */
 public class JoinImpl extends MappingComponentImpl implements Join {
 
-	private String child;
-	private String parent;
+	private TransFunct child;
+	private TransFunct parent;
 
-	public JoinImpl(RDF rdf, String childCol, String parentCol) {
+	public JoinImpl(RDF rdf, TransFunct childCol, TransFunct parentCol) {
 
 		super(rdf);
         setChild(childCol);
@@ -46,7 +48,7 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public void setChild(String columnName) {
+	public void setChild(TransFunct columnName) {
 		if (columnName != null) {
 			child = columnName;
 		} else {
@@ -55,7 +57,7 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public void setParent(String columnName) {
+	public void setParent(TransFunct columnName) {
 		if (columnName != null) {
 			parent = columnName;
 		} else {
@@ -64,12 +66,12 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public String getChild() {
+	public TransFunct getChild() {
 		return child;
 	}
 
 	@Override
-	public String getParent() {
+	public TransFunct getParent() {
 		return parent;
 	}
 
@@ -79,11 +81,11 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 
         stmtSet.add(getRDF().createTriple(node, getRDF().createIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), getRDF().createIRI(R2RMLVocabulary.TYPE_JOIN)));
 
-        stmtSet.add(getRDF().createTriple(node, getRDF().createIRI(R2RMLVocabulary.PROP_CHILD),
+       /* stmtSet.add(getRDF().createTriple(node, getRDF().createIRI(R2RMLVocabulary.PROP_CHILD),
                 getRDF().createLiteral(child)));
 
         stmtSet.add(getRDF().createTriple(node, getRDF().createIRI(R2RMLVocabulary.PROP_PARENT),
-                getRDF().createLiteral(parent)));
+                getRDF().createLiteral(parent)));*/
 
 		return stmtSet;
 	}

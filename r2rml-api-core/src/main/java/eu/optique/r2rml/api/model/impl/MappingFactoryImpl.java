@@ -1,21 +1,10 @@
 package eu.optique.r2rml.api.model.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import eu.optique.r2rml.api.model.GraphMap;
-import eu.optique.r2rml.api.model.InverseExpression;
-import eu.optique.r2rml.api.model.Join;
-import eu.optique.r2rml.api.model.LogicalTable;
+import eu.optique.r2rml.api.model.*;
 import eu.optique.r2rml.api.MappingFactory;
-import eu.optique.r2rml.api.model.ObjectMap;
-import eu.optique.r2rml.api.model.PredicateMap;
-import eu.optique.r2rml.api.model.PredicateObjectMap;
-import eu.optique.r2rml.api.model.R2RMLView;
-import eu.optique.r2rml.api.model.RefObjectMap;
-import eu.optique.r2rml.api.model.SQLBaseTableOrView;
-import eu.optique.r2rml.api.model.SubjectMap;
-import eu.optique.r2rml.api.model.Template;
-import eu.optique.r2rml.api.model.TriplesMap;
 import org.apache.commons.rdf.api.BlankNodeOrIRI;
 import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDF;
@@ -164,8 +153,18 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public Join createJoinCondition(String childColumn, String parentColumn) {
+	public Join createJoinCondition(TransFunct childColumn, TransFunct parentColumn) {
 		return new JoinImpl(rdf, childColumn, parentColumn);
+	}
+
+	@Override
+	public TransFunct createTransFunct(ArrayList<IRI> functions, ArrayList<ColumnFunction> columnFunction) {
+		return new TransFunctImpl(rdf, functions, columnFunction );
+	}
+
+	@Override
+	public ColumnFunction createColumnFunction (ArrayList<IRI> functions, String columnName){
+		return new ColumnFunctionImpl(rdf,functions,columnName);
 	}
 
 	@Override
