@@ -158,12 +158,12 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public TransFunct createTransFunct(ArrayList<IRI> functions, ArrayList<ColumnFunction> columnFunction) {
+	public TransFunct createTransFunct(ArrayList<String> functions, ArrayList<ColumnFunction> columnFunction) {
 		return new TransFunctImpl(rdf, functions, columnFunction );
 	}
 
 	@Override
-	public ColumnFunction createColumnFunction (ArrayList<IRI> functions, String columnName){
+	public ColumnFunction createColumnFunction (ArrayList<String> functions, String columnName){
 		return new ColumnFunctionImpl(rdf,functions,columnName);
 	}
 

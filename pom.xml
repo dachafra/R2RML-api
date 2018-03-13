@@ -38,7 +38,7 @@
         <license.licenseName>apache_v2</license.licenseName>
         <license.roots>src/main/java,src/test/java</license.roots>
 
-        <commons-rdf.version>0.3.0-incubating</commons-rdf.version>
+        <commons-rdf.version>0.5.0</commons-rdf.version>
     </properties>
 
     <profiles>

@@ -244,7 +244,7 @@ public interface MappingFactory {
      * @param columnFunction the set of individual columns and functions
      * @return  The created Function
      */
-    TransFunct createTransFunct(ArrayList<IRI> functions, ArrayList<ColumnFunction> columnFunction);
+    TransFunct createTransFunct(ArrayList<String> functions, ArrayList<ColumnFunction> columnFunction);
 
     /**
      * Create a new Function with the set of functions and set of ColumnFunctions
@@ -253,7 +253,7 @@ public interface MappingFactory {
      * @param columName the name of the column
      * @return  The created ColumnFunction
      */
-    ColumnFunction createColumnFunction (ArrayList<IRI> functions, String columName);
+    ColumnFunction createColumnFunction (ArrayList<String> functions, String columName);
     /**
      * Create a new template.
      *

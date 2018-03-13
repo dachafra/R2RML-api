@@ -701,9 +701,9 @@ public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
 		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_GENERAL_TRANS_FUNCTION), null)
 				.map(Triple::getObject)
 				.collect(toSet());
-        ArrayList<IRI> functions = new ArrayList<>();
+        ArrayList<String> functions = new ArrayList<>();
         for(RDFTerm value: aux){
-            functions.add((IRI) value);
+            functions.add(value.toString());
         }
 
 
@@ -727,9 +727,9 @@ public class R2RMLMappingCollectionImpl implements R2RMLMappingCollection {
                 .map(Triple::getObject)
                 .collect(toSet());
 
-        ArrayList<IRI> functionsAux = new ArrayList<>();
+        ArrayList<String> functionsAux = new ArrayList<>();
         for (RDFTerm value : columnFunct) {
-            functionsAux.add((IRI) value);
+            functionsAux.add(value.toString());
         }
 
 		return mfact.createColumnFunction(functionsAux,columnName);
