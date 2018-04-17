@@ -35,8 +35,8 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>eu.optique-project</groupId>
-			<artifactId>r2rml-api-core</artifactId>
+			<groupId>es.upm.fi.dia.oeg.rmlc</groupId>
+			<artifactId>rmlc-api-core</artifactId>
 			<version>0.6.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

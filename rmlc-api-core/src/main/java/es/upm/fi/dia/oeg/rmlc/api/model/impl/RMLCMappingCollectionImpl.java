@@ -665,7 +665,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 							 "Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple children.");
 				 } else {
 					 BlankNodeOrIRI child = (BlankNodeOrIRI) children.toArray()[0];
-					 childFunction=readTransFunct(child);
+					 childFunction=readTransFunct(child, R2RMLVocabulary.PROP_CHILD);
 				 }
 
 
@@ -678,7 +678,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 							"Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple parents.");
 				} else {
 					BlankNodeOrIRI parent = (BlankNodeOrIRI) parents.toArray()[0];
-					parentFunction=readTransFunct(parent);
+					parentFunction=readTransFunct(parent, R2RMLVocabulary.PROP_PARENT);
 				}
 
 				// add join condition to refobjMap instance
@@ -692,7 +692,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	}
 
 
-	private TransFunct readTransFunct(BlankNodeOrIRI function){
+	private TransFunct readTransFunct(BlankNodeOrIRI function, String type){
 		ArrayList<ColumnFunction> columnFunctions = new ArrayList<>();
 
 		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_GENERAL_TRANS_FUNCTION), null)
@@ -710,15 +710,15 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 
 
 		for(RDFTerm value : columnFunct){
-			columnFunctions.add(readColumnFunctions( (BlankNodeOrIRI) value));
+			columnFunctions.add(readColumnFunctions( (BlankNodeOrIRI) value, type));
 		}
 
 		return mfact.createTransFunct(functions,columnFunctions);
 	}
 
-	private ColumnFunction readColumnFunctions(BlankNodeOrIRI columnFunction){
+	private ColumnFunction readColumnFunctions(BlankNodeOrIRI columnFunction, String type){
 
-        String columnName = ((Literal) readObjectInMappingGraph(columnFunction,getRDF().createIRI(R2RMLVocabulary.PROP_COLUMN))).getLexicalForm();
+        String columnName = ((Literal) readObjectInMappingGraph(columnFunction,getRDF().createIRI(type))).getLexicalForm();
 
         Collection<RDFTerm> columnFunct = graph.stream(columnFunction, getRDF().createIRI(RMLCVocabulary.PROP_INDIVIDUAL_TRANS_FUNCTION), null)
                 .map(Triple::getObject)
