@@ -21,6 +21,8 @@ package es.upm.fi.dia.oeg.rmlc.api.model;
 
 import org.apache.commons.rdf.api.IRI;
 
+import java.util.ArrayList;
+
 /**
  * R2RML Object Map
  * 
@@ -101,4 +103,7 @@ public interface ObjectMap extends TermMap {
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_LANGUAGE)
 	public void removeLanguageTag();
 
+    public void setColumns(ArrayList<String> columns);
+
+    public void setFunction (String function);
 }

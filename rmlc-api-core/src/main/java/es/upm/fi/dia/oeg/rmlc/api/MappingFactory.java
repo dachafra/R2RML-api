@@ -233,26 +233,18 @@ public interface MappingFactory {
      * @param parentColumn The parent column of the Join.
      * @return The created Join.
      */
-    Join createJoinCondition(TransFunct childColumn, TransFunct parentColumn);
+    Join createJoinCondition(JoinObject childColumn, JoinObject parentColumn);
 
 
     /**
      * Create a new Function with the set of functions and set of ColumnFunctions
      *
-     * @param functions the functions will apply to the set of columns
-     * @param columnFunction the set of individual columns and functions
+     * @param functions the string of functions will apply to the set of columns
+     * @param columns the set of individual columns
      * @return  The created Function
      */
-    TransFunct createTransFunct(ArrayList<String> functions, ArrayList<ColumnFunction> columnFunction);
+    JoinObject createJoinObject(ArrayList<String> columns, String functions);
 
-    /**
-     * Create a new Function with the set of functions and set of ColumnFunctions
-     *
-     * @param functions the functions will apply to the column
-     * @param columName the name of the column
-     * @return  The created ColumnFunction
-     */
-    ColumnFunction createColumnFunction (ArrayList<String> functions, String columName);
     /**
      * Create a new template.
      *

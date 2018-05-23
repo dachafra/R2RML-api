@@ -19,12 +19,7 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import es.upm.fi.dia.oeg.rmlc.api.RMLCMappingManager;
 import es.upm.fi.dia.oeg.rmlc.api.model.*;
@@ -619,7 +614,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	private List<RefObjectMap> readRefObjectMaps(BlankNodeOrIRI pomNode, BlankNodeOrIRI tmNode)
 			throws InvalidRMLCMappingException {
 		List<RefObjectMap> refObjectMaps = new ArrayList<RefObjectMap>();
-		TransFunct childFunction,parentFunction;
+		JoinObject childObject, parentObject;
 		// look for objectMap declaration
         Collection<RDFTerm> objectMapNodes = graph.stream(pomNode, getRDF().createIRI(R2RMLVocabulary.PROP_OBJECT_MAP), null)
                 .map(Triple::getObject)
@@ -665,7 +660,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 							 "Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple children.");
 				 } else {
 					 BlankNodeOrIRI child = (BlankNodeOrIRI) children.toArray()[0];
-					 childFunction=readTransFunct(child, R2RMLVocabulary.PROP_CHILD);
+					 childObject=readJoinObject(child, RMLCVocabulary.PROP_CHILD);
 				 }
 
 
@@ -678,12 +673,12 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 							"Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple parents.");
 				} else {
 					BlankNodeOrIRI parent = (BlankNodeOrIRI) parents.toArray()[0];
-					parentFunction=readTransFunct(parent, R2RMLVocabulary.PROP_PARENT);
+					parentObject=readJoinObject(parent, RMLCVocabulary.PROP_PARENT);
 				}
 
 				// add join condition to refobjMap instance
-				if (childFunction != null && parentFunction != null)
-					refObjectMap.addJoinCondition(mfact.createJoinCondition(childFunction, parentFunction));
+				if (childObject != null && parentObject != null)
+					refObjectMap.addJoinCondition(mfact.createJoinCondition(childObject, parentObject));
 			}
 			refObjectMaps.add(refObjectMap);
 		}
@@ -692,45 +687,35 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	}
 
 
-	private TransFunct readTransFunct(BlankNodeOrIRI function, String type){
-		ArrayList<ColumnFunction> columnFunctions = new ArrayList<>();
+	private JoinObject readJoinObject(BlankNodeOrIRI function, String type) throws InvalidRMLCMappingException{
 
-		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_GENERAL_TRANS_FUNCTION), null)
-				.map(Triple::getObject)
-				.collect(toSet());
-        ArrayList<String> functions = new ArrayList<>();
-        for(RDFTerm value: aux){
-            functions.add(value.toString());
-        }
-
-
-		Collection<RDFTerm> columnFunct = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_COLUMN_FUNCTION), null)
+		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_COLUMNS), null)
 				.map(Triple::getObject)
 				.collect(toSet());
 
-
-		for(RDFTerm value : columnFunct){
-			columnFunctions.add(readColumnFunctions( (BlankNodeOrIRI) value, type));
+		if(aux.size()!=1){
+			throw new InvalidRMLCMappingException("Invalid mapping:"+function+" has 0 or multiple "+type+" objects");
 		}
 
-		return mfact.createTransFunct(functions,columnFunctions);
+		String c = aux.toArray()[0].toString();
+		ArrayList<String> columns = new ArrayList<>(Arrays.asList(c.replace("[","").replace("]","").replace("\"","").split(",")));
+
+
+		aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_FUNCTIONS), null)
+				.map(Triple::getObject)
+				.collect(toSet());
+		String functions="";
+		if(aux.size()>1){
+			throw new InvalidRMLCMappingException("Invalid mapping: Child has 0 or multiple rmlc:child properties");
+		}
+		if(aux.size()==1) {
+			functions = aux.toArray()[0].toString().replace("\"", "");
+		}
+		return mfact.createJoinObject(columns, functions);
+
 	}
 
-	private ColumnFunction readColumnFunctions(BlankNodeOrIRI columnFunction, String type){
 
-        String columnName = ((Literal) readObjectInMappingGraph(columnFunction,getRDF().createIRI(type))).getLexicalForm();
-
-        Collection<RDFTerm> columnFunct = graph.stream(columnFunction, getRDF().createIRI(RMLCVocabulary.PROP_INDIVIDUAL_TRANS_FUNCTION), null)
-                .map(Triple::getObject)
-                .collect(toSet());
-
-        ArrayList<String> functionsAux = new ArrayList<>();
-        for (RDFTerm value : columnFunct) {
-            functionsAux.add(value.toString());
-        }
-
-		return mfact.createColumnFunction(functionsAux,columnName);
-	}
 
     private RDF getRDF() {
         return rdf;

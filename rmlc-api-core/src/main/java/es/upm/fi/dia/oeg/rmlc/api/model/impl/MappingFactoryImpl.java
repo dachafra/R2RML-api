@@ -153,18 +153,13 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public Join createJoinCondition(TransFunct childColumn, TransFunct parentColumn) {
-		return new JoinImpl(rdf, childColumn, parentColumn);
+	public Join createJoinCondition(JoinObject child, JoinObject parent) {
+		return new JoinImpl(rdf, child, parent);
 	}
 
 	@Override
-	public TransFunct createTransFunct(ArrayList<String> functions, ArrayList<ColumnFunction> columnFunction) {
-		return new TransFunctImpl(rdf, functions, columnFunction );
-	}
-
-	@Override
-	public ColumnFunction createColumnFunction (ArrayList<String> functions, String columnName){
-		return new ColumnFunctionImpl(rdf,functions,columnName);
+	public JoinObject createJoinObject(ArrayList<String> columns, String functions) {
+		return new JoinObjectImpl(rdf, columns, functions);
 	}
 
 	@Override

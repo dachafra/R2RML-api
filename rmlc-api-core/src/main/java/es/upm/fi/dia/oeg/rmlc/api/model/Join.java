@@ -20,11 +20,11 @@
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
 /**
- * R2RML Join Condition
+ * RMLC Join Condition
  * 
  * @author Marius Strandhaug
  */
-@W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_JOIN)
+@W3C_R2RML_Recommendation(RMLCVocabulary.TYPE_JOIN)
 public interface Join extends MappingComponent {
 
 	/**
@@ -32,40 +32,40 @@ public interface Join extends MappingComponent {
 	 * map that contains the referencing object map. A Join must have exactly
 	 * one child.
 	 * 
-	 * @param columnName
-	 *            The name of the column.
+	 * @param child
+	 *            The child object.
 	 * @throws NullPointerException
-	 *             If columnName is null.
+	 *             If columnNames are null.
 	 */
-	@W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_CHILD)
-	public void setChild(TransFunct columnName);
+	@W3C_R2RML_Recommendation(RMLCVocabulary.PROP_CHILD)
+	public void setChild(JoinObject child);
 
 	/**
 	 * Set the parent to a column that exists in the logical table of the
 	 * RefObjectMap's parent triples map. A Join must have exactly one parent.
 	 * 
-	 * @param columnName
-	 *            The name of the column.
+	 * @param parent
+	 *            The parent object.
 	 * @throws NullPointerException
-	 *             If columnName is null.
+	 *             If columnNames are null.
 	 */
-    @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_PARENT)
-	public void setParent(TransFunct columnName);
+    @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_PARENT)
+	public void setParent(JoinObject parent);
 
 	/**
 	 * Get the child for this Join.
 	 * 
 	 * @return The child associated with this Join.
 	 */
-    @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_CHILD)
-	public TransFunct getChild();
+    @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_CHILD)
+	public JoinObject getChild();
 
 	/**
 	 * Get the parent for this Join.
 	 * 
 	 * @return The parent associated with this Join.
 	 */
-    @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_PARENT)
-	public TransFunct getParent();
+    @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_PARENT)
+	public JoinObject getParent();
 
 }

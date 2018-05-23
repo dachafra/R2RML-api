@@ -23,8 +23,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import es.upm.fi.dia.oeg.rmlc.api.model.Join;
+import es.upm.fi.dia.oeg.rmlc.api.model.JoinObject;
 import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
-import es.upm.fi.dia.oeg.rmlc.api.model.TransFunct;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
 
@@ -36,10 +36,10 @@ import org.apache.commons.rdf.api.Triple;
  */
 public class JoinImpl extends MappingComponentImpl implements Join {
 
-	private TransFunct child;
-	private TransFunct parent;
+	private JoinObject child;
+	private JoinObject parent;
 
-	public JoinImpl(RDF rdf, TransFunct childCol, TransFunct parentCol) {
+	public JoinImpl(RDF rdf, JoinObject childCol, JoinObject parentCol) {
 
 		super(rdf);
         setChild(childCol);
@@ -48,7 +48,7 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public void setChild(TransFunct columnName) {
+	public void setChild(JoinObject columnName) {
 		if (columnName != null) {
 			child = columnName;
 		} else {
@@ -57,7 +57,7 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public void setParent(TransFunct columnName) {
+	public void setParent(JoinObject columnName) {
 		if (columnName != null) {
 			parent = columnName;
 		} else {
@@ -66,12 +66,12 @@ public class JoinImpl extends MappingComponentImpl implements Join {
 	}
 
 	@Override
-	public TransFunct getChild() {
+	public JoinObject getChild() {
 		return child;
 	}
 
 	@Override
-	public TransFunct getParent() {
+	public JoinObject getParent() {
 		return parent;
 	}
 

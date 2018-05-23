@@ -27,10 +27,7 @@ import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.RDFTerm;
 import org.apache.commons.rdf.api.Triple;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * An implementation of an ObjectMap.
@@ -199,6 +196,14 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
 		}
 
 		return true;
+	}
+
+	public void setColumns(ArrayList<String> columns){
+
+	}
+
+	public void setFunction (String function){
+
 	}
 
 	@Override
