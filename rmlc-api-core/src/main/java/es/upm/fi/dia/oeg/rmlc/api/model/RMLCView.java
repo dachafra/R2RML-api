@@ -29,7 +29,7 @@ import java.util.List;
  * @author Marius Strandhaug
  */
 @W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_R2RML_VIEW)
-public interface RMLCView extends LogicalTable {
+public interface RMLCView extends LogicalSource {
 
 	/**
 	 * Sets the SQL Query of this R2RMLView. A R2RMLView must have exactly one

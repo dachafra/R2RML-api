@@ -53,7 +53,7 @@ public interface RefObjectMap extends MappingComponent {
      * @deprecated does not correspond to Recommendation: logicalTable is not a property of RefObjectMap
 	 */
 	@Deprecated
-	public void setParentLogicalTable(LogicalTable lt);
+	public void setParentLogicalTable(LogicalSource lt);
 
 	/**
 	 * Adds the logical table of the triples map that this RefObjectMap is
@@ -66,7 +66,7 @@ public interface RefObjectMap extends MappingComponent {
      * @deprecated does not correspond to Recommendation: logicalTable is not a property of RefObjectMap
 	 */
     @Deprecated
-	public void setChildLogicalTable(LogicalTable lt);
+	public void setChildLogicalTable(LogicalSource lt);
 
 	/**
 	 * Returns the child query for this RefObjectMap. The child query is the

@@ -26,11 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import es.upm.fi.dia.oeg.rmlc.api.model.Join;
-import es.upm.fi.dia.oeg.rmlc.api.model.LogicalTable;
-import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
-import es.upm.fi.dia.oeg.rmlc.api.model.RefObjectMap;
-import es.upm.fi.dia.oeg.rmlc.api.model.TriplesMap;
+import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
 
@@ -44,8 +40,8 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 
 	private TriplesMap parent;
 
-	private LogicalTable parentLogicalTable;
-	private LogicalTable childLogicalTable;
+	private LogicalSource parentLogicalTable;
+	private LogicalSource childLogicalTable;
 
 	private ArrayList<Join> joinList;
 
@@ -66,12 +62,12 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 	}
 	
 	@Override
-	public void setParentLogicalTable(LogicalTable lt) {
+	public void setParentLogicalTable(LogicalSource lt) {
 		parentLogicalTable = lt;
 	}
 
 	@Override
-	public void setChildLogicalTable(LogicalTable lt) {
+	public void setChildLogicalTable(LogicalSource lt) {
 		childLogicalTable = lt;
 	}
 

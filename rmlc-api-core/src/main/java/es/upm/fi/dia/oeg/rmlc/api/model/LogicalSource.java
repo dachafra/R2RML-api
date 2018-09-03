@@ -19,13 +19,16 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
+import org.apache.commons.rdf.api.IRI;
+import org.apache.commons.rdf.api.RDF;
+
 /**
  * R2RML Logical Table
  * 
- * @author Marius Strandhaug
+ * @author David Chaves
  */
-@W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_LOGICAL_TABLE)
-public interface LogicalTable extends MappingComponent {
+@W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_SOURCE_TABLE)
+public interface LogicalSource extends MappingComponent {
 
 	/**
 	 * Returns the effective SQL query of this LogicalTable. The effective SQL
@@ -36,5 +39,9 @@ public interface LogicalTable extends MappingComponent {
 	 */
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_SQL_QUERY)
 	public String getSQLQuery();
+
+    public IRI getreferenceFormulation();
+
+	public void setreferenceFormulation(IRI referenceFormulation);
 
 }

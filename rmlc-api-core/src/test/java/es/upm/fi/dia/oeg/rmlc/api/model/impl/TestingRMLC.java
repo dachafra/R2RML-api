@@ -13,7 +13,7 @@ public class TestingRMLC extends RMLCMappingManagerImpl {
     public void main (String args[]) throws Exception{
         JenaRDF jenaRDF = new JenaRDF();
         Model model = ModelFactory.createDefaultModel() ;
-        model.read("/Users/dchaves/Downloads/rmlc.ttl") ;
+        model.read("../example-rmlc.ttl") ;
         importMappings(((JenaRDF) getRDF()).asGraph(model));
     }
 

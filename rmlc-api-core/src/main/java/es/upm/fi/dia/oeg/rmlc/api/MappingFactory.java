@@ -24,9 +24,9 @@ public interface MappingFactory {
      * @param sm The SubjectMap of the TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm);
 
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, BlankNodeOrIRI node);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, BlankNodeOrIRI node);
 
     /**
      * Create a new TriplesMap with the given LogicalTable, SubjectMap and
@@ -38,9 +38,9 @@ public interface MappingFactory {
      * @param pom A PredicateObjectMap for the TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom);
 
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node);
 
     /**
      * Create a new TriplesMap with the given LogicalTable, SubjectMap and list
@@ -53,7 +53,7 @@ public interface MappingFactory {
      *                  TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, List<PredicateObjectMap> listOfPom);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, List<PredicateObjectMap> listOfPom);
 
     /**
      * Create a new PredicateObjectMap with the given PredicateMap and

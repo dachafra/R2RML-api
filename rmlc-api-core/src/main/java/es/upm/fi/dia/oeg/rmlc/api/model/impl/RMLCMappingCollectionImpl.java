@@ -121,7 +121,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
         // find triplesmap nodes
         // it has to have a logical table declaration
         Collection<BlankNodeOrIRI> triplesMapNodes = graph
-                .stream(null, getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_TABLE), null)
+                .stream(null, getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_SOURCE), null)
                 .map(Triple::getSubject)
                 .collect(toSet());
 
@@ -145,7 +145,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	private TriplesMap readTriplesMap(BlankNodeOrIRI node)
 			throws InvalidRMLCMappingException {
 		// create a TriplesMap populating each argument
-		LogicalTable logicalTable = readLogicalTable(node);
+		LogicalSource logicalTable = readLogicalTable(node);
 		SubjectMap subjectMap = readSubjectMap(node);
 		TriplesMap triplesMap = mfact.createTriplesMap(logicalTable, subjectMap);
 		triplesMap.setNode(node);
@@ -162,11 +162,11 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	 * @throws InvalidRMLCMappingException
 	 *             if there's no logicalTable node
 	 */
-	private LogicalTable readLogicalTable(BlankNodeOrIRI node)
+	private LogicalSource readLogicalTable(BlankNodeOrIRI node)
 			throws InvalidRMLCMappingException {
-		LogicalTable toReturn = null;
+		LogicalSource toReturn = null;
 		// find logical table nodes
-        Collection<RDFTerm> logicalTableNode = readObjectsInMappingGraph(node, getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_TABLE));
+        Collection<RDFTerm> logicalTableNode = readObjectsInMappingGraph(node, getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_SOURCE));
 		// must be exactly one logicaltable node
 		if (logicalTableNode.size() != 1) {
 			throw new InvalidRMLCMappingException(
@@ -176,7 +176,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 			boolean isSQLTable = false;
 
 			// look for tableName
-            RDFTerm tableName = readObjectInMappingGraph(logicalTable, getRDF().createIRI(R2RMLVocabulary.PROP_TABLE_NAME));
+            RDFTerm tableName = readObjectInMappingGraph(logicalTable, getRDF().createIRI(R2RMLVocabulary.PROP_SOURCE_NAME));
 			if (tableName != null) {
 				isSQLTable = true;
 				toReturn = mfact.createSQLBaseTableOrView(((Literal)tableName).getLexicalForm());

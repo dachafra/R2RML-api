@@ -19,21 +19,34 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model.impl;
 
-import es.upm.fi.dia.oeg.rmlc.api.model.LogicalTable;
+import es.upm.fi.dia.oeg.rmlc.api.model.LogicalSource;
+import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
+import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDF;
 
 /**
  * The abstract superclass for R2RMLViewImpl and SQLBaseTableOrViewImpl.
- * 
- * @author Marius Strandhaug
+ *
+ * @author David Chaves
  */
-public abstract class LogicalTableImpl extends MappingComponentImpl implements LogicalTable {
+public abstract class LogicalSourceImpl extends MappingComponentImpl implements LogicalSource {
 
-	public LogicalTableImpl(RDF rdf) {
+	private IRI referenceFormulation;
+	public LogicalSourceImpl(RDF rdf) {
 		super(rdf);
+		setreferenceFormulation(rdf.createIRI(R2RMLVocabulary.PROPO_REFENCE_FORMULATION));
 	}
 
 	@Override
 	public abstract String getSQLQuery();
 
+	@Override
+	public IRI getreferenceFormulation() {
+		return referenceFormulation;
+	}
+
+	@Override
+	public void setreferenceFormulation(IRI referenceFormulation) {
+		this.referenceFormulation = referenceFormulation;
+	}
 }

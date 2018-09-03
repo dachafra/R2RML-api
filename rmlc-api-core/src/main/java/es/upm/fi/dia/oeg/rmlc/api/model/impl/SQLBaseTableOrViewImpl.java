@@ -24,6 +24,7 @@ import java.util.Set;
 
 import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
 import es.upm.fi.dia.oeg.rmlc.api.model.SQLBaseTableOrView;
+import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
 
@@ -32,7 +33,7 @@ import org.apache.commons.rdf.api.Triple;
  * 
  * @author Marius Strandhaug
  */
-public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseTableOrView {
+public class SQLBaseTableOrViewImpl extends LogicalSourceImpl implements SQLBaseTableOrView {
 
 	String table;
 
@@ -61,6 +62,11 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
 	@Override
 	public String getSQLQuery() {
 		return "SELECT * FROM " + table;
+	}
+
+	@Override
+	public void setreferenceFormulation(IRI referenceFormulation) {
+
 	}
 
 	@Override

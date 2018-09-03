@@ -39,7 +39,7 @@ public interface TriplesMap extends MappingComponent {
 	 *            The LogicalTable that will be added.
 	 */
 	@W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_LOGICAL_TABLE)
-	public void setLogicalTable(LogicalTable lt);
+	public void setLogicalTable(LogicalSource lt);
 
 	/**
 	 * Set the SubjectMap of this TriplesMap. A TriplesMap must have exactly one
@@ -79,7 +79,7 @@ public interface TriplesMap extends MappingComponent {
 	 * @return The LogicalTable of this TriplesMap.
 	 */
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_LOGICAL_TABLE)
-	public LogicalTable getLogicalTable();
+	public LogicalSource getLogicalTable();
 
 	/**
 	 * Get the SubjectMap associated with this TriplesMap.

@@ -26,12 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import es.upm.fi.dia.oeg.rmlc.api.model.LogicalTable;
-import es.upm.fi.dia.oeg.rmlc.api.model.PredicateObjectMap;
-import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
-import es.upm.fi.dia.oeg.rmlc.api.model.SubjectMap;
-import es.upm.fi.dia.oeg.rmlc.api.model.TriplesMap;
-import es.upm.fi.dia.oeg.rmlc.api.model.TermMap;
+import es.upm.fi.dia.oeg.rmlc.api.model.*;
 import org.apache.commons.rdf.api.BlankNodeOrIRI;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
@@ -44,11 +39,11 @@ import org.apache.commons.rdf.api.Triple;
  */
 public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 
-	private LogicalTable logTable;
+	private LogicalSource logTable;
 	private SubjectMap subMap;
 	private ArrayList<PredicateObjectMap> pomList;
 
-	TriplesMapImpl(RDF rdf, LogicalTable lt, SubjectMap sm) {
+	TriplesMapImpl(RDF rdf, LogicalSource lt, SubjectMap sm) {
 		super(rdf);
 
 		pomList = new ArrayList<>();
@@ -58,7 +53,7 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
         setNode(getRDF().createBlankNode());
 	}
 
-	TriplesMapImpl(RDF rdf, LogicalTable lt, SubjectMap sm, BlankNodeOrIRI node) {
+	TriplesMapImpl(RDF rdf, LogicalSource lt, SubjectMap sm, BlankNodeOrIRI node) {
         super(rdf);
 
 		pomList = new ArrayList<>();
@@ -71,7 +66,7 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 	}
 
 	@Override
-	public void setLogicalTable(LogicalTable lt) {
+	public void setLogicalTable(LogicalSource lt) {
 		if (lt == null) {
 			throw new NullPointerException("A TriplesMap must have a LogicalTable.");
 		} else {
@@ -92,14 +87,14 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 	public void addPredicateObjectMap(PredicateObjectMap pom) {
 		pomList.add(pom);
 	}
-	
+
 	@Override
 	public void addPredicateObjectMaps(Collection<PredicateObjectMap> poms) {
 		pomList.addAll(poms);
 	}
 
 	@Override
-	public LogicalTable getLogicalTable() {
+	public LogicalSource getLogicalTable() {
 		return logTable;
 	}
 

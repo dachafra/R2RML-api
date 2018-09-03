@@ -25,17 +25,17 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm) {
 		return new TriplesMapImpl(rdf, lt, sm);
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, BlankNodeOrIRI node) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, BlankNodeOrIRI node) {
 		return new TriplesMapImpl(rdf, lt, sm, node);
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom) {
 
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm);
 		tm.addPredicateObjectMap(pom);
@@ -43,14 +43,14 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node) {
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm, node);
 		tm.addPredicateObjectMap(pom);
 		return tm;
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, List<PredicateObjectMap> listOfPom) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, List<PredicateObjectMap> listOfPom) {
 
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm);
 
