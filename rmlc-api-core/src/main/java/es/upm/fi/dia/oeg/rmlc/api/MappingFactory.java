@@ -208,6 +208,8 @@ public interface MappingFactory {
      */
     ObjectMap createObjectMap(String columnName);
 
+
+    ObjectMap createObjectMap(ArrayList<RDFTerm> columns);
     /**
      * Create a new ObjectMap with the given term map type and a column or
      * constant value. The term map type of the ObjectMap will be set to TermMapType.CONSTANT_VALUED.
@@ -243,7 +245,7 @@ public interface MappingFactory {
      * @param columns the set of individual columns
      * @return  The created Function
      */
-    JoinObject createJoinObject(ArrayList<String> columns, String functions);
+    JoinObject createJoinObject(ArrayList<RDFTerm> columns, String functions);
 
     /**
      * Create a new template.

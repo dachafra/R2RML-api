@@ -47,7 +47,7 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 		super(rdf);
 
 		pomList = new ArrayList<>();
-		setLogicalTable(lt);
+		setLogicalSource(lt);
 		setSubjectMap(sm);
 
         setNode(getRDF().createBlankNode());
@@ -57,7 +57,7 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
         super(rdf);
 
 		pomList = new ArrayList<>();
-		setLogicalTable(lt);
+		setLogicalSource(lt);
 		setSubjectMap(sm);
 
 		//String triplesMapIRI = node.contains(":") ? node : "http://ex.org/" + node;
@@ -66,9 +66,9 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 	}
 
 	@Override
-	public void setLogicalTable(LogicalSource lt) {
+	public void setLogicalSource(LogicalSource lt) {
 		if (lt == null) {
-			throw new NullPointerException("A TriplesMap must have a LogicalTable.");
+			throw new NullPointerException("A TriplesMap must have a LogicalSource.");
 		} else {
 			logTable = lt;
 		}
@@ -94,7 +94,7 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 	}
 
 	@Override
-	public LogicalSource getLogicalTable() {
+	public LogicalSource getLogicalSource() {
 		return logTable;
 	}
 
@@ -124,8 +124,8 @@ public class TriplesMapImpl extends MappingComponentImpl implements TriplesMap {
 
         stmtSet.add(getRDF().createTriple(getNode(), getRDF().createIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), getRDF().createIRI(R2RMLVocabulary.TYPE_TRIPLES_MAP)));
 
-        stmtSet.add(getRDF().createTriple(getNode(), getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_TABLE), getLogicalTable().getNode()));
-		stmtSet.addAll(getLogicalTable().serialize());
+        stmtSet.add(getRDF().createTriple(getNode(), getRDF().createIRI(R2RMLVocabulary.PROP_LOGICAL_TABLE), getLogicalSource().getNode()));
+		stmtSet.addAll(getLogicalSource().serialize());
 
 		if (getSubjectMap().getTermMapType() == TermMap.TermMapType.CONSTANT_VALUED) {
 			// Use constant shortcut property.

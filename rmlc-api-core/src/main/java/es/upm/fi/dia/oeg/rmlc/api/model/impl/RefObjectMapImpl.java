@@ -40,8 +40,8 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 
 	private TriplesMap parent;
 
-	private LogicalSource parentLogicalTable;
-	private LogicalSource childLogicalTable;
+	private LogicalSource parentLogicalSource;
+	private LogicalSource childLogicalSource;
 
 	private ArrayList<Join> joinList;
 
@@ -62,32 +62,32 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 	}
 	
 	@Override
-	public void setParentLogicalTable(LogicalSource lt) {
-		parentLogicalTable = lt;
+	public void setParentLogicalSource(LogicalSource lt) {
+		parentLogicalSource = lt;
 	}
 
 	@Override
-	public void setChildLogicalTable(LogicalSource lt) {
-		childLogicalTable = lt;
+	public void setChildLogicalSource(LogicalSource lt) {
+		childLogicalSource = lt;
 	}
 
 	@Override
 	public String getChildQuery() {
-		if (childLogicalTable == null) {
+		if (childLogicalSource == null) {
 			throw new NullPointerException(
 					"The child logical table is not set.");
 		} else {
-			return childLogicalTable.getSQLQuery();
+			return childLogicalSource.getSQLQuery();
 		}
 	}
 
 	@Override
 	public String getParentQuery() {
-		if (parentLogicalTable == null) {
+		if (parentLogicalSource == null) {
 			throw new NullPointerException(
 					"The parent logical table is not set.");
 		} else {
-			return parentLogicalTable.getSQLQuery();
+			return parentLogicalSource.getSQLQuery();
 		}
 	}
 
@@ -160,14 +160,14 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 		int result = 1;
 		result = prime
 				* result
-				+ ((childLogicalTable == null) ? 0 : childLogicalTable
+				+ ((childLogicalSource == null) ? 0 : childLogicalSource
 						.hashCode());
 		result = prime * result
 				+ ((joinList == null) ? 0 : joinList.hashCode());
 		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
 		result = prime
 				* result
-				+ ((parentLogicalTable == null) ? 0 : parentLogicalTable
+				+ ((parentLogicalSource == null) ? 0 : parentLogicalSource
 						.hashCode());
 		result = prime * result + ((node == null) ? 0 : node.hashCode());
 		return result;
@@ -185,11 +185,11 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 			return false;
 
 		RefObjectMapImpl other = (RefObjectMapImpl) obj;
-		if (childLogicalTable == null) {
-			if (other.childLogicalTable != null) {
+		if (childLogicalSource == null) {
+			if (other.childLogicalSource != null) {
 				return false;
 			}
-		} else if (!childLogicalTable.equals(other.childLogicalTable)) {
+		} else if (!childLogicalSource.equals(other.childLogicalSource)) {
 			return false;
 		}
 
@@ -209,11 +209,11 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 			return false;
 		}
 
-		if (parentLogicalTable == null) {
-			if (other.parentLogicalTable != null) {
+		if (parentLogicalSource == null) {
+			if (other.parentLogicalSource != null) {
 				return false;
 			}
-		} else if (!parentLogicalTable.equals(other.parentLogicalTable)) {
+		} else if (!parentLogicalSource.equals(other.parentLogicalSource)) {
 			return false;
 		}
 
@@ -230,9 +230,9 @@ public class RefObjectMapImpl extends MappingComponentImpl implements RefObjectM
 
 	@Override
 	public String toString() {
-		return "RefObjectMapImpl [parent=" + parent + ", parentLogicalTable="
-				+ parentLogicalTable + ", childLogicalTable="
-				+ childLogicalTable + ", joinList=" + joinList + ", node=" + node
+		return "RefObjectMapImpl [parent=" + parent + ", parentLogicalSource="
+				+ parentLogicalSource + ", childLogicalTable="
+				+ childLogicalSource + ", joinList=" + joinList + ", node=" + node
 				+ "]";
 	}
 

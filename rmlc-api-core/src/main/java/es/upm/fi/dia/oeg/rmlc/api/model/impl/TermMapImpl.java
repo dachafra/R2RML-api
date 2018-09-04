@@ -29,6 +29,7 @@ import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.RDFTerm;
 import org.apache.commons.rdf.api.Triple;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,6 +53,8 @@ public abstract class TermMapImpl extends MappingComponentImpl implements TermMa
     RDFTerm constVal;
 
     String columnName;
+
+    ArrayList<RDFTerm> columns;
 
     InverseExpression inverseExp;
 
@@ -83,6 +86,14 @@ public abstract class TermMapImpl extends MappingComponentImpl implements TermMa
         }
 
         this.termMapType = TermMapType.CONSTANT_VALUED;
+        setNode(getRDF().createBlankNode());
+    }
+
+    TermMapImpl(RDF rdf, ArrayList<RDFTerm> columns){
+        super(rdf);
+        this.columns = columns;
+        this.termMapType = TermMapType.COLUMNS_VALUED;
+        setDefaultTermType();
         setNode(getRDF().createBlankNode());
     }
 
@@ -135,6 +146,11 @@ public abstract class TermMapImpl extends MappingComponentImpl implements TermMa
         this.columnName = requireNonNull(columnName);
     }
 
+    public void setColumns(ArrayList<RDFTerm> columns){
+        this.termMapType = TermMapType.COLUMNS_VALUED;
+        this.columns = columns;
+    }
+
     @Override
     public void setInverseExpression(InverseExpression invExp) {
         if (getTermMapType() == TermMapType.COLUMN_VALUED
@@ -173,6 +189,10 @@ public abstract class TermMapImpl extends MappingComponentImpl implements TermMa
     @Override
     public String getColumn() {
         return columnName;
+    }
+
+    public ArrayList<RDFTerm> getColumns(){
+        return columns;
     }
 
     @Override

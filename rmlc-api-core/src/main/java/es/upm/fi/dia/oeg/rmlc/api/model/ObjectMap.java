@@ -103,7 +103,9 @@ public interface ObjectMap extends TermMap {
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_LANGUAGE)
 	public void removeLanguageTag();
 
-    public void setColumns(ArrayList<String> columns);
 
-    public void setFunction (String function);
+    public void setFunction(String functions);
+
+    public String getFunction();
+
 }

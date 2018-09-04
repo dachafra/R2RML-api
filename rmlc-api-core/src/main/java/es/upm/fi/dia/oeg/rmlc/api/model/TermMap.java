@@ -22,6 +22,7 @@ package es.upm.fi.dia.oeg.rmlc.api.model;
 import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDFTerm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public interface TermMap extends MappingComponent {
      * The term map must be set to one of these values when created.
      */
     public enum TermMapType {
-        CONSTANT_VALUED, TEMPLATE_VALUED, COLUMN_VALUED
+        CONSTANT_VALUED, TEMPLATE_VALUED, COLUMN_VALUED, COLUMNS_VALUED
     }
 
 
@@ -188,5 +189,10 @@ public interface TermMap extends MappingComponent {
      */
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_INVERSE_EXPRESSION)
     public void removeInverseExpression();
+
+
+    public ArrayList<RDFTerm> getColumns();
+
+    public void setColumns (ArrayList<RDFTerm> columns);
 
 }

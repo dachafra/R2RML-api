@@ -147,6 +147,10 @@ public class MappingFactoryImpl implements MappingFactory {
     public ObjectMap createObjectMap(RDFTerm constant) {
         return new ObjectMapImpl(rdf, constant);
     }
+
+	public ObjectMap createObjectMap(ArrayList<RDFTerm> columns){
+		return new ObjectMapImpl(rdf,columns);
+	}
 	
 	public RefObjectMap createRefObjectMap(TriplesMap parentMap) {
 		return new RefObjectMapImpl(rdf, parentMap);
@@ -158,7 +162,7 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public JoinObject createJoinObject(ArrayList<String> columns, String functions) {
+	public JoinObject createJoinObject(ArrayList<RDFTerm> columns, String functions) {
 		return new JoinObjectImpl(rdf, columns, functions);
 	}
 

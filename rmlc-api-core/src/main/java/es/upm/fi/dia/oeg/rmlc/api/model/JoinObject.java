@@ -1,16 +1,18 @@
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
+import org.apache.commons.rdf.api.RDFTerm;
+
 import java.util.ArrayList;
 
 public interface JoinObject {
 
 
-    public void setColumns (ArrayList<String> columns);
+    void setColumns (ArrayList<RDFTerm> columns);
 
-    public void setFunction (String functions);
+    void setFunction (String functions);
 
-    public ArrayList<String> getColumns ();
+    ArrayList<RDFTerm> getColumns ();
 
-    public String getFunctions ();
+    String getFunctions ();
 
 }
