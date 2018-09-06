@@ -177,9 +177,10 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 
 			// look for tableName
             RDFTerm tableName = readObjectInMappingGraph(logicalSource, getRDF().createIRI(R2RMLVocabulary.PROP_SOURCE_NAME));
-			if (tableName != null) {
+			IRI referenceFormulation = (IRI) readObjectInMappingGraph(logicalSource, getRDF().createIRI(R2RMLVocabulary.PROP_REFERENCE_FORMULATION));
+			if (tableName != null && referenceFormulation !=null) {
 				isSQLTable = true;
-				toReturn = mfact.createSQLBaseTableOrView(((Literal)tableName).getLexicalForm());
+				toReturn = mfact.createSQLBaseTableOrView(((Literal)tableName).getLexicalForm(),referenceFormulation);
 			}
 
 			// look for sql query
@@ -202,7 +203,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 
 			if (toReturn == null) {
 				throw new InvalidRMLCMappingException(
-						"Invalid mapping: Logical table in TripleMap " + node + " has no tablename or SQL query.");
+						"Invalid mapping: Logical table in TripleMap " + node + " has no source or SQL query.");
 			}
 
 			toReturn.setNode(logicalSource);

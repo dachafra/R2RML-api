@@ -19,6 +19,11 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
+import org.apache.commons.rdf.api.IRI;
+import org.apache.commons.rdf.api.RDFTerm;
+
+import java.util.ArrayList;
+
 /**
  * A logical tables' SQL base table or view.
  * 
@@ -43,5 +48,11 @@ public interface SQLBaseTableOrView extends LogicalSource {
 	 * @return The table or view name of this SQLBaseTableOrView.
 	 */
 	public String getTableName();
+
+
+	public IRI getReferenceFormulation();
+
+	public void setReferenceFormulation(IRI referenceFormulation);
+
 
 }

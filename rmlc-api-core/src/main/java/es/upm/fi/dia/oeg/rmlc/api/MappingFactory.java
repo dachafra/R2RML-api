@@ -6,6 +6,7 @@ import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDFTerm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -102,7 +103,7 @@ public interface MappingFactory {
      * @param tableName The table name for the SQLBaseTableOrView.
      * @return The created SQLBaseTableOrView.
      */
-    SQLBaseTableOrView createSQLBaseTableOrView(String tableName);
+    SQLBaseTableOrView createSQLBaseTableOrView(String tableName, IRI referenceFormulation);
 
     /**
      * Create a new GraphMap with the given template. The term map type of the

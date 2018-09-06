@@ -75,10 +75,6 @@ public class RMLCViewImpl extends LogicalSourceImpl implements RMLCView {
 		return sqlQuery;
 	}
 
-	@Override
-	public void setreferenceFormulation(IRI referenceFormulation) {
-
-	}
 
 	@Override
 	public IRI getSQLVersion(int index) {

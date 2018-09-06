@@ -25,6 +25,7 @@ public class RMLCVocabulary {
     public static final String PROP_CHILD = NAMESPACE + "child";
     public static final String PROP_COLUMNS = NAMESPACE + "columns";
     public static final String PROP_FUNCTIONS = NAMESPACE + "functions";
+
     public static final String PROP_TEMPLATE = NAMESPACE + "template";
     public static final String PROP_CHILD_FUNCTION = NAMESPACE_FUNCTIONS + "childFunctions";
     public static final String PROP_PARENT_FUNCTION = NAMESPACE_FUNCTIONS + "parentFunctions";

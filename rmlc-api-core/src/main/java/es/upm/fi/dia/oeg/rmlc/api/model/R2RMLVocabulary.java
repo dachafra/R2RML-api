@@ -73,7 +73,7 @@ public class R2RMLVocabulary {
     public static final String PROP_SOURCE_NAME = NAMESPACE_RML + "source";
     public static final String PROP_TEMPLATE = NAMESPACE + "template";
     public static final String PROP_TERM_TYPE = NAMESPACE + "termType";
-    public static final String PROPO_REFENCE_FORMULATION = NAMESPACE_RML + "referenceForumation";
+    public static final String PROP_REFERENCE_FORMULATION = NAMESPACE_RML + "referenceFormulation";
 
     // R2RML other terms
     public static final String TERM_DEFAULT_GRAPH = NAMESPACE + "defaultGraph";

@@ -37,10 +37,14 @@ public class SQLBaseTableOrViewImpl extends LogicalSourceImpl implements SQLBase
 
 	String table;
 
-	public SQLBaseTableOrViewImpl(RDF c, String tableName) {
+	private IRI referenceFormulation;
+
+	public SQLBaseTableOrViewImpl(RDF c, String tableName, IRI referenceFormulation) {
 		super(c);
 
 		setTableName(tableName);
+
+		setReferenceFormulation(referenceFormulation);
 
         setNode(getRDF().createBlankNode());
 	}
@@ -60,13 +64,22 @@ public class SQLBaseTableOrViewImpl extends LogicalSourceImpl implements SQLBase
 	}
 
 	@Override
-	public String getSQLQuery() {
-		return "SELECT * FROM " + table;
+	public IRI getReferenceFormulation() {
+		return referenceFormulation;
 	}
 
 	@Override
-	public void setreferenceFormulation(IRI referenceFormulation) {
+	public void setReferenceFormulation(IRI referenceFormulation) {
+		if (referenceFormulation != null) {
+			this.referenceFormulation = referenceFormulation;
+		} else {
+			throw new NullPointerException("A Logical Source must have a Reference Formulation name.");
+		}
+	}
 
+	@Override
+	public String getSQLQuery() {
+		return "SELECT * FROM " + table;
 	}
 
 	@Override

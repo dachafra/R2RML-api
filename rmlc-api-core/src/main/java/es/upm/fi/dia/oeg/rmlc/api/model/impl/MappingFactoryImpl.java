@@ -84,8 +84,8 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public SQLBaseTableOrView createSQLBaseTableOrView(String tableName) {
-		return new SQLBaseTableOrViewImpl(rdf, tableName);
+	public SQLBaseTableOrView createSQLBaseTableOrView(String tableName, IRI referenceFormulation) {
+		return new SQLBaseTableOrViewImpl(rdf, tableName, referenceFormulation);
 	}
 
 	@Override

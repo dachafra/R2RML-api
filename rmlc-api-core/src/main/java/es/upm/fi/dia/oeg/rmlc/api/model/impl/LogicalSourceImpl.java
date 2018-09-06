@@ -20,8 +20,6 @@
 package es.upm.fi.dia.oeg.rmlc.api.model.impl;
 
 import es.upm.fi.dia.oeg.rmlc.api.model.LogicalSource;
-import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
-import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDF;
 
 /**
@@ -31,22 +29,11 @@ import org.apache.commons.rdf.api.RDF;
  */
 public abstract class LogicalSourceImpl extends MappingComponentImpl implements LogicalSource {
 
-	private IRI referenceFormulation;
+
 	public LogicalSourceImpl(RDF rdf) {
 		super(rdf);
-		setreferenceFormulation(rdf.createIRI(R2RMLVocabulary.PROPO_REFENCE_FORMULATION));
 	}
 
 	@Override
 	public abstract String getSQLQuery();
-
-	@Override
-	public IRI getreferenceFormulation() {
-		return referenceFormulation;
-	}
-
-	@Override
-	public void setreferenceFormulation(IRI referenceFormulation) {
-		this.referenceFormulation = referenceFormulation;
-	}
 }
