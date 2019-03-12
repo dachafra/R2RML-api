@@ -5,58 +5,130 @@
 @prefix sql: <http://w3.org/ns/sql#> .
 @prefix gtfs: <http://vocab.gtfs.org/terms#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-<#TriplesMap1>
-rml:logicalSource [
-      rml:source "trips.txt" ;
-      rml:referenceFormulation ql:CSV
-  ];
-  rr:subjectMap [
-    a rr:Subject;
-    rr:template "http://linkedgtfs.com/CITY/trips/{TRIP_ID}";
-    rr:termType rr:IRI;
-    rr:class gtfs:Trip;
-  ];
-  rr:predicateObjectMap[
-    rr:predicate gtfs:route;
-    rr:objectMap [
-      rr:parentTriplesMap <#TriplesMapRoute>;
-      rr:joinCondition [
-        rmlc:child [
-          rmlc:columns "ROUTE_ID","LONG_NAME";
-          rmlc:functions "CONCAT(LOWER(columns[0]), SUBSTRING(columns[1],1,5))";
-        ];
-        rmlc:parent [
-          rmlc:columns "ROUTE_ID","SHORT_NAME";
-          rmlc:functions "CONCAT(TRIM(columns[0]),':',REPLACE(columns[1],'-',' '))";
-        ];
-      ];
-    ];
-  ];
-.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http//schema.org/> .
+@prefix ex: <http://ex.org/ns/ex#> .
 
 
-<#TriplesMapRoute>
+<publication>
+	rml:logicalSource [
+		rml:source "comment.csv";
+		rml:referenceFormulation ql:CSV
+	];
 
-rml:logicalSource [
-    rml:source "routes.txt";
-    rml:referenceFormulation ql:CSV
-  ];
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/Comment/{date}{username}{comment}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant schema:SocialMediaPosting;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:comment;
+		rr:objectMap [
+			rml:reference "comment";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:dateCreated;
+		rr:objectMap [
+			rml:reference "date";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:dateModified;
+		rr:objectMap [
+			rml:reference "modifiedDates";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:author;
+		rr:objectMap [
+			rr:parentTriplesMap <person>;
+			rmlc:joinCondition [
+				rmlc:child "{username}";
+				rmlc:parent "CONCAT(SUBSTRING({name},1,1),{ln1})";
+			];
+		];
+	].
+<country>
+	rml:logicalSource [
+		rml:source "people.csv";
+		rml:referenceFormulation ql:CSV
+	];
 
-  rr:subjectMap [
-    a rr:Subject;
-    rr:template "http://linkedgtfs.com/CITY/routes/{ROUTE_ID}";
-    rr:termType rr:IRI;
-    rr:class gtfs:Route;
-  ];
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/country/{cName}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant schema:Country;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:officialName;
+		rr:objectMap [
+			rml:reference "cOfficialName";
+		];
+	].
+<person>
+	rml:logicalSource [
+		rml:source "people.csv";
+		rml:referenceFormulation ql:CSV
+	];
 
-  rr:predicateObjectMap[
-    rr:predicate gtfs:shortName;
-    rr:objectMap [
-      rr:datatype xsd:String;
-      rmlc:columns "ROUTE_SHORT_NAME","OTHER";
-      rmlc:functions "LOWER(columns[0])";
-    ];
-  ];
-.
-
+	rr:subjectMap [
+		a rr:SubjectMap;
+		rr:template "http://ex.org/Person/{name}{ln1}{ln2}";
+	];
+	rr:predicateObjectMap[
+		rr:predicate rdf:type;
+		rr:objectMap [
+			rr:constant schema:Person;
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:givenName;
+		rr:objectMap [
+			rml:reference "name";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:familyName;
+		rr:objectMap [
+			rr:template "{ln1} {ln2}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:name;
+		rr:objectMap [
+			rr:template "{name} {ln1} {ln2}";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:nOfCourse;
+		rr:objectMap [
+			rml:reference "nCourses";
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate schema:email;
+		rr:objectMap [
+			rmlc:function "LOWER(CONCAT(SUBSTRING({name},1,1),CONCAT({ln1},@fi.upm.es)))"
+		];
+	];
+	rr:predicateObjectMap[
+		rr:predicate ex:hasCountry;
+		rr:objectMap [
+			rr:parentTriplesMap <country>;
+			rmlc:joinCondition [
+				rmlc:child "{name}{ln1}{ln2}";
+				rmlc:parent "{name}{ln1}{ln2}";
+			];
+		];
+	].

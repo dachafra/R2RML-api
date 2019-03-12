@@ -100,10 +100,10 @@ public interface MappingFactory {
     /**
      * Create a new SQLBaseTableOrView with the given table name.
      *
-     * @param tableName The table name for the SQLBaseTableOrView.
+     * @param sourceName The table name for the SQLBaseTableOrView.
      * @return The created SQLBaseTableOrView.
      */
-    SQLBaseTableOrView createSQLBaseTableOrView(String tableName, IRI referenceFormulation);
+    Source createSource(String sourceName, IRI referenceFormulation);
 
     /**
      * Create a new GraphMap with the given template. The term map type of the
@@ -236,17 +236,8 @@ public interface MappingFactory {
      * @param parentColumn The parent column of the Join.
      * @return The created Join.
      */
-    Join createJoinCondition(JoinObject childColumn, JoinObject parentColumn);
+    Join createJoinCondition(String childColumn, String parentColumn);
 
-
-    /**
-     * Create a new Function with the set of functions and set of ColumnFunctions
-     *
-     * @param functions the string of functions will apply to the set of columns
-     * @param columns the set of individual columns
-     * @return  The created Function
-     */
-    JoinObject createJoinObject(ArrayList<RDFTerm> columns, String functions);
 
     /**
      * Create a new template.

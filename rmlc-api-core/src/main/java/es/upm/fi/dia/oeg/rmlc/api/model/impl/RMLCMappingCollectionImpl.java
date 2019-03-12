@@ -176,11 +176,11 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 			boolean isSQLTable = false;
 
 			// look for tableName
-            RDFTerm tableName = readObjectInMappingGraph(logicalSource, getRDF().createIRI(R2RMLVocabulary.PROP_SOURCE_NAME));
+            RDFTerm sourceName = readObjectInMappingGraph(logicalSource, getRDF().createIRI(R2RMLVocabulary.PROP_SOURCE_NAME));
 			IRI referenceFormulation = (IRI) readObjectInMappingGraph(logicalSource, getRDF().createIRI(R2RMLVocabulary.PROP_REFERENCE_FORMULATION));
-			if (tableName != null && referenceFormulation !=null) {
+			if (sourceName != null && referenceFormulation !=null) {
 				isSQLTable = true;
-				toReturn = mfact.createSQLBaseTableOrView(((Literal)tableName).getLexicalForm(),referenceFormulation);
+				toReturn = mfact.createSource(((Literal)sourceName).getLexicalForm(),referenceFormulation);
 			}
 
 			// look for sql query
@@ -188,7 +188,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 			if (query != null) {
 				if (isSQLTable) {
 					throw new InvalidRMLCMappingException(
-							"Invalid mapping: Logical table in TripleMap " + node + " has both a tablename and a SQL query.");
+							"Invalid mapping: Logical source in TripleMap " + node + " has both a tablename and a SQL query.");
 				}
 
 				toReturn = mfact.createRMLCView(((Literal)query).getLexicalForm());
@@ -541,12 +541,12 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 
 		// look for template
         RDFTerm resource = readObjectInMappingGraph(node, getRDF().createIRI(R2RMLVocabulary.PROP_TEMPLATE));
-        Collection<RDFTerm> rmlcResource = readObjectsInMappingGraph(node, getRDF().createIRI(RMLCVocabulary.PROP_COLUMNS));
+        Collection<RDFTerm> rmlcResource = readObjectsInMappingGraph(node, getRDF().createIRI(RMLCVocabulary.PROP_FUNCTIONS));
 		TermMap.TermMapType termMapType = TermMap.TermMapType.TEMPLATE_VALUED;
 
 		// look for column
 		if (resource == null) {
-            resource = readObjectInMappingGraph(node, getRDF().createIRI(R2RMLVocabulary.PROP_COLUMN));
+            resource = readObjectInMappingGraph(node, getRDF().createIRI(RMLCVocabulary.PROP_REFERENCE));
 			termMapType = TermMap.TermMapType.COLUMN_VALUED;
 		}
 
@@ -557,7 +557,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 		}
 
 		if (resource == null) {
-			rmlcResource = readObjectsInMappingGraph(node, getRDF().createIRI(RMLCVocabulary.PROP_COLUMNS));
+			rmlcResource = readObjectsInMappingGraph(node, getRDF().createIRI(RMLCVocabulary.PROP_FUNCTIONS));
 			termMapType = TermMap.TermMapType.COLUMNS_VALUED;
 		}
 
@@ -630,7 +630,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 	private List<RefObjectMap> readRefObjectMaps(BlankNodeOrIRI pomNode, BlankNodeOrIRI tmNode)
 			throws InvalidRMLCMappingException {
 		List<RefObjectMap> refObjectMaps = new ArrayList<RefObjectMap>();
-		JoinObject childObject, parentObject;
+		Literal child, parent;
 		// look for objectMap declaration
         Collection<RDFTerm> objectMapNodes = graph.stream(pomNode, getRDF().createIRI(R2RMLVocabulary.PROP_OBJECT_MAP), null)
                 .map(Triple::getObject)
@@ -660,7 +660,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 			refObjectMap.setParentLogicalSource(readLogicalSource(parentNode));
 
 			// look for join condition
-            Collection<RDFTerm> joinConditions = graph.stream(objectNode, getRDF().createIRI(R2RMLVocabulary.PROP_JOIN_CONDITION), null)
+            Collection<RDFTerm> joinConditions = graph.stream(objectNode, getRDF().createIRI(RMLCVocabulary.TYPE_JOIN), null)
                     .map(Triple::getObject)
                     .collect(toSet());
 			for (RDFTerm value : joinConditions) {
@@ -675,8 +675,7 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 					 throw new InvalidRMLCMappingException(
 							 "Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple children.");
 				 } else {
-					 BlankNodeOrIRI child = (BlankNodeOrIRI) children.toArray()[0];
-					 childObject=readJoinObject(child, RMLCVocabulary.PROP_CHILD);
+				 	child = (Literal) children.toArray()[0];
 				 }
 
 
@@ -688,45 +687,17 @@ public class RMLCMappingCollectionImpl implements RMLCMappingCollection {
 					throw new InvalidRMLCMappingException(
 							"Invalid mapping: Join Condition " + joinCondition + " has 0 or multiple parents.");
 				} else {
-					BlankNodeOrIRI parent = (BlankNodeOrIRI) parents.toArray()[0];
-					parentObject=readJoinObject(parent, RMLCVocabulary.PROP_PARENT);
+					parent = (Literal) parents.toArray()[0];
 				}
 
 				// add join condition to refobjMap instance
-				if (childObject != null && parentObject != null)
-					refObjectMap.addJoinCondition(mfact.createJoinCondition(childObject, parentObject));
+				if (child != null && parent != null)
+					refObjectMap.addJoinCondition(mfact.createJoinCondition(child.getLexicalForm(), parent.getLexicalForm()));
 			}
 			refObjectMaps.add(refObjectMap);
 		}
 
 		return refObjectMaps;
-	}
-
-
-	private JoinObject readJoinObject(BlankNodeOrIRI function, String type) throws InvalidRMLCMappingException{
-
-		Collection<RDFTerm> aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_COLUMNS), null)
-				.map(Triple::getObject)
-				.collect(toSet());
-
-		if(aux.size()<1){
-			throw new InvalidRMLCMappingException("Invalid mapping:"+function+" has 0 "+type+" objects");
-		}
-
-		ArrayList<RDFTerm> columns = new ArrayList<>(aux);
-
-		aux = graph.stream(function, getRDF().createIRI(RMLCVocabulary.PROP_FUNCTIONS), null)
-				.map(Triple::getObject)
-				.collect(toSet());
-		String functions="";
-		if(aux.size()>1){
-			throw new InvalidRMLCMappingException("Invalid mapping: the function property must be a string");
-		}
-		if(aux.size()==1) {
-			functions = aux.toArray()[0].toString().replace("\"", "");
-		}
-		return mfact.createJoinObject(columns, functions);
-
 	}
 
 

@@ -84,8 +84,8 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public SQLBaseTableOrView createSQLBaseTableOrView(String tableName, IRI referenceFormulation) {
-		return new SQLBaseTableOrViewImpl(rdf, tableName, referenceFormulation);
+	public Source createSource(String tableName, IRI referenceFormulation) {
+		return new SourceImpl(rdf, tableName, referenceFormulation);
 	}
 
 	@Override
@@ -157,13 +157,8 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public Join createJoinCondition(JoinObject child, JoinObject parent) {
+	public Join createJoinCondition(String child, String parent) {
 		return new JoinImpl(rdf, child, parent);
-	}
-
-	@Override
-	public JoinObject createJoinObject(ArrayList<RDFTerm> columns, String functions) {
-		return new JoinObjectImpl(rdf, columns, functions);
 	}
 
 	@Override

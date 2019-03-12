@@ -20,9 +20,6 @@
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
 import org.apache.commons.rdf.api.IRI;
-import org.apache.commons.rdf.api.RDFTerm;
-
-import java.util.ArrayList;
 
 /**
  * A logical tables' SQL base table or view.
@@ -30,24 +27,24 @@ import java.util.ArrayList;
  * @author Marius Strandhaug
  */
 @W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_BASE_TABLE_OR_VIEW)
-public interface SQLBaseTableOrView extends LogicalSource {
+public interface Source extends LogicalSource {
 
 	/**
 	 * Sets the SQL base table or view of this SQLBaseTableOrView.
 	 * 
-	 * @param tableName
+	 * @param sourceName
 	 *            The name of the SQL base table or view.
 	 * @throws NullPointerException
 	 *             If tableName is null.
 	 */
-	public void setTableName(String tableName);
+	public void setSourceName(String sourceName);
 
 	/**
 	 * Gets the name of the SQL base table or view.
 	 * 
 	 * @return The table or view name of this SQLBaseTableOrView.
 	 */
-	public String getTableName();
+	public String getSourceName();
 
 
 	public IRI getReferenceFormulation();
