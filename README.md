@@ -6,25 +6,23 @@ RMLC-api
 ```
     mvn clean install
 ```
+* copy the jars in the target folder in the lib folder of your maven project
 * put the following fragments into your `pom.xml`
 
 ```xml        
     <dependency>
         <groupId>es.upm.fi.dia.oeg.rmlc</groupId>
         <artifactId>rmlc-api-jena-binding</artifactId>
-        <version>0.6.1-SNAPSHOT</version>
+        <version>1.5.1</version>
+        <scope>system</scope>
+        <systemPath>${pom.basedir}/lib/rmlc-api-jena-binding-1.5.1.jar</systemPath>
     </dependency>
 
     <dependency>
         <groupId>es.upm.fi.dia.oeg.rmlc</groupId>
         <artifactId>rmlc-api-core</artifactId>
-        <version>0.6.1-SNAPSHOT</version>
+        <version>1.5.1</version>
+        <scope>system</scope>
+        <systemPath>${pom.basedir}/lib/rmlc-api-core-1.5.1.jar</systemPath>
     </dependency>
 ```
-
-
-## Release history
-
-<a name="v0.6.1"></a>
-### 22 March, 2018 ::  Version 0.6.1 
-* fork made from [R2RML-api](https://github.com/R2RML-api/R2RML-api), changes to RMLC were applied
