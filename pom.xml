@@ -3,7 +3,7 @@
     <groupId>es.upm.fi.dia.oeg.rmlc</groupId>
     <artifactId>rmlc-api-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>1.5.1</version>
     <name>RMLC API</name>
     <licenses>
         <license>

@@ -12,22 +12,23 @@ package es.upm.fi.dia.oeg.rmlc.api.model;
 
 public class RMLCVocabulary {
 
-    // the RMLC namespace
+    // the RML[C] namespace
     public static final String NAMESPACE = "http://www.ex.org/ns/rmlc#";
-    public static final String NAMESPACE_FUNCTIONS = "http://www.ex.org/ns/rmlcf##";
+    public static final String RML_NAMESPACE="http://semweb.mmlab.be/ns/rml#";
 
-    // RMLC types
+    // RML[C] types
     public static final String TYPE_JOIN = NAMESPACE + "joinCondition";
+    public static final String TYPE_LOGICALSOURCE = RML_NAMESPACE+"logicalSource";
 
-    //RMLC properties
-
+    //RML[C] properties
     public static final String PROP_PARENT = NAMESPACE + "parent";
     public static final String PROP_CHILD = NAMESPACE + "child";
-    public static final String PROP_COLUMNS = NAMESPACE + "columns";
-    public static final String PROP_FUNCTIONS = NAMESPACE + "functions";
-    public static final String PROP_TEMPLATE = NAMESPACE + "template";
-    public static final String PROP_CHILD_FUNCTION = NAMESPACE_FUNCTIONS + "childFunctions";
-    public static final String PROP_PARENT_FUNCTION = NAMESPACE_FUNCTIONS + "parentFunctions";
+    public static final String PROP_FUNCTIONS = NAMESPACE + "function";
+    public static final String PROP_SOURCE = RML_NAMESPACE + "source";
+    public static final String PROP_REFERENCE_FORM = RML_NAMESPACE + "referenceFormulation";
+    public static final String PROP_REFERENCE = RML_NAMESPACE + "reference";
+
+
 
 
 }

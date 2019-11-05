@@ -68,8 +68,8 @@ public class RMLCMappingManagerImpl implements RMLCMappingManager {
         if (mc == null || mc.getTriplesMaps().isEmpty())
             throw new IllegalArgumentException("Does not contain any (valid) TriplesMaps");
         for (TriplesMap map : mc.getTriplesMaps()) {
-            requireNonNull(map.getLogicalTable(),  () -> "No logical table for TriplesMap " + map.getNode().toString());
-            if (map.getLogicalTable().getNode() == null && map.getLogicalTable().getSQLQuery() == null)
+            requireNonNull(map.getLogicalSource(),  () -> "No logical table for TriplesMap " + map.getNode().toString());
+            if (map.getLogicalSource().getNode() == null && map.getLogicalSource().getSQLQuery() == null)
                 throw new IllegalArgumentException("No logical table for TriplesMap " + map.getNode().toString());
             requireNonNull(map.getSubjectMap(), () -> map.getNode().toString() + " does not have any SubjectMap");
         }

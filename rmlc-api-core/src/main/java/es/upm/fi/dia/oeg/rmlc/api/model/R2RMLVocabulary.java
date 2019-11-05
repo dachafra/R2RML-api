@@ -29,12 +29,13 @@ public class R2RMLVocabulary {
 
     // the R2RML namespace
     public static final String NAMESPACE = "http://www.w3.org/ns/r2rml#";
+    public static final String NAMESPACE_RML = "http://semweb.mmlab.be/ns/rml#";
 
     // R2RML types
     public static final String TYPE_BASE_TABLE_OR_VIEW = NAMESPACE + "BaseTableOrView";
     public static final String TYPE_GRAPH_MAP = NAMESPACE + "GraphMap";
     public static final String TYPE_JOIN = NAMESPACE + "Join";
-    public static final String TYPE_LOGICAL_TABLE = NAMESPACE + "LogicalTable";
+    public static final String TYPE_SOURCE_TABLE = NAMESPACE_RML + "logicalSource";
     public static final String TYPE_OBJECT_MAP = NAMESPACE + "ObjectMap";
     public static final String TYPE_PREDICATE_MAP = NAMESPACE + "PredicateMap";
     public static final String TYPE_PREDICATE_OBJECT_MAP = NAMESPACE + "PredicateObjectMap";
@@ -56,6 +57,7 @@ public class R2RMLVocabulary {
     public static final String PROP_JOIN_CONDITION = NAMESPACE + "joinCondition";
     public static final String PROP_LANGUAGE = NAMESPACE + "language";
     public static final String PROP_LOGICAL_TABLE = NAMESPACE + "logicalTable";
+    public static final String PROP_LOGICAL_SOURCE = NAMESPACE_RML + "logicalSource";
     public static final String PROP_OBJECT = NAMESPACE + "object";
     public static final String PROP_OBJECT_MAP = NAMESPACE + "objectMap";
     public static final String PROP_PARENT = NAMESPACE + "parent";
@@ -68,8 +70,10 @@ public class R2RMLVocabulary {
     public static final String PROP_SUBJECT = NAMESPACE + "subject";
     public static final String PROP_SUBJECT_MAP = NAMESPACE + "subjectMap";
     public static final String PROP_TABLE_NAME = NAMESPACE + "tableName";
+    public static final String PROP_SOURCE_NAME = NAMESPACE_RML + "source";
     public static final String PROP_TEMPLATE = NAMESPACE + "template";
     public static final String PROP_TERM_TYPE = NAMESPACE + "termType";
+    public static final String PROP_REFERENCE_FORMULATION = NAMESPACE_RML + "referenceFormulation";
 
     // R2RML other terms
     public static final String TERM_DEFAULT_GRAPH = NAMESPACE + "defaultGraph";

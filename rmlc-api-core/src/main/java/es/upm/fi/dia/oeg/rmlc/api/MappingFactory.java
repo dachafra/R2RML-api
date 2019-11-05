@@ -6,6 +6,7 @@ import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDFTerm;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,9 +25,9 @@ public interface MappingFactory {
      * @param sm The SubjectMap of the TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm);
 
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, BlankNodeOrIRI node);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, BlankNodeOrIRI node);
 
     /**
      * Create a new TriplesMap with the given LogicalTable, SubjectMap and
@@ -38,9 +39,9 @@ public interface MappingFactory {
      * @param pom A PredicateObjectMap for the TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom);
 
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node);
 
     /**
      * Create a new TriplesMap with the given LogicalTable, SubjectMap and list
@@ -53,7 +54,7 @@ public interface MappingFactory {
      *                  TriplesMap.
      * @return The created TriplesMap.
      */
-    TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, List<PredicateObjectMap> listOfPom);
+    TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, List<PredicateObjectMap> listOfPom);
 
     /**
      * Create a new PredicateObjectMap with the given PredicateMap and
@@ -99,10 +100,10 @@ public interface MappingFactory {
     /**
      * Create a new SQLBaseTableOrView with the given table name.
      *
-     * @param tableName The table name for the SQLBaseTableOrView.
+     * @param sourceName The table name for the SQLBaseTableOrView.
      * @return The created SQLBaseTableOrView.
      */
-    SQLBaseTableOrView createSQLBaseTableOrView(String tableName);
+    Source createSource(String sourceName, IRI referenceFormulation);
 
     /**
      * Create a new GraphMap with the given template. The term map type of the
@@ -208,6 +209,8 @@ public interface MappingFactory {
      */
     ObjectMap createObjectMap(String columnName);
 
+
+    ObjectMap createObjectMap(ArrayList<RDFTerm> columns);
     /**
      * Create a new ObjectMap with the given term map type and a column or
      * constant value. The term map type of the ObjectMap will be set to TermMapType.CONSTANT_VALUED.
@@ -233,17 +236,8 @@ public interface MappingFactory {
      * @param parentColumn The parent column of the Join.
      * @return The created Join.
      */
-    Join createJoinCondition(JoinObject childColumn, JoinObject parentColumn);
+    Join createJoinCondition(String childColumn, String parentColumn);
 
-
-    /**
-     * Create a new Function with the set of functions and set of ColumnFunctions
-     *
-     * @param functions the string of functions will apply to the set of columns
-     * @param columns the set of individual columns
-     * @return  The created Function
-     */
-    JoinObject createJoinObject(ArrayList<String> columns, String functions);
 
     /**
      * Create a new template.

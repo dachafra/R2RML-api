@@ -22,10 +22,7 @@ package es.upm.fi.dia.oeg.rmlc.api.model.impl;
 import es.upm.fi.dia.oeg.rmlc.api.model.ObjectMap;
 import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
 import es.upm.fi.dia.oeg.rmlc.api.model.Template;
-import org.apache.commons.rdf.api.IRI;
-import org.apache.commons.rdf.api.RDF;
-import org.apache.commons.rdf.api.RDFTerm;
-import org.apache.commons.rdf.api.Triple;
+import org.apache.commons.rdf.api.*;
 
 import java.util.*;
 
@@ -46,6 +43,8 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
      */
     private IRI dataType;
 
+    private String function;
+
     /**
      * language tag when datatype rdf:langString
      */
@@ -64,6 +63,10 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
         super(c, constant);
     }
 
+    ObjectMapImpl(RDF c, ArrayList<RDFTerm> columns){
+    	super(c,columns);
+	}
+
     @Override
     public void setTermType(IRI typeIRI) {
 
@@ -76,6 +79,14 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
     }
 
     @Override
+	public void setFunction(String function){
+		for(int i=0 ; i< columns.size();i++){
+			function = function.replace("columns["+i+"]",((Literal)columns.get(i)).getLexicalForm());
+		}
+		this.function = function;
+	}
+
+    @Override
     public List<IRI> getValidTermTypes() {
         return validTermTypes;
     }
@@ -86,7 +97,7 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
 		 * An object map's default term termMapType is Literal if it's column valued,
 		 * has a language tag, or if it's data typed.
 		 */
-		if (termMapType == TermMapType.COLUMN_VALUED || langTag != null || dataType != null) {
+		if (termMapType == TermMapType.COLUMN_VALUED || langTag != null || dataType != null || termMapType == TermMapType.COLUMNS_VALUED) {
             termTypeIRI = getRDF().createIRI(R2RMLVocabulary.TERM_LITERAL);
 		} else {
             termTypeIRI = getRDF().createIRI(R2RMLVocabulary.TERM_IRI);
@@ -129,6 +140,9 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
 	public void removeDatatype() {
 		dataType = null;
 	}
+
+	@Override
+	public String getFunction () { return function;}
 
 	@Override
 	public void removeLanguageTag() {
@@ -196,14 +210,6 @@ public class ObjectMapImpl extends TermMapImpl implements ObjectMap {
 		}
 
 		return true;
-	}
-
-	public void setColumns(ArrayList<String> columns){
-
-	}
-
-	public void setFunction (String function){
-
 	}
 
 	@Override

@@ -25,17 +25,17 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm) {
 		return new TriplesMapImpl(rdf, lt, sm);
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, BlankNodeOrIRI node) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, BlankNodeOrIRI node) {
 		return new TriplesMapImpl(rdf, lt, sm, node);
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom) {
 
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm);
 		tm.addPredicateObjectMap(pom);
@@ -43,14 +43,14 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, PredicateObjectMap pom, BlankNodeOrIRI node) {
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm, node);
 		tm.addPredicateObjectMap(pom);
 		return tm;
 	}
 
 	@Override
-	public TriplesMap createTriplesMap(LogicalTable lt, SubjectMap sm, List<PredicateObjectMap> listOfPom) {
+	public TriplesMap createTriplesMap(LogicalSource lt, SubjectMap sm, List<PredicateObjectMap> listOfPom) {
 
 		TriplesMap tm = new TriplesMapImpl(rdf, lt, sm);
 
@@ -84,8 +84,8 @@ public class MappingFactoryImpl implements MappingFactory {
 	}
 
 	@Override
-	public SQLBaseTableOrView createSQLBaseTableOrView(String tableName) {
-		return new SQLBaseTableOrViewImpl(rdf, tableName);
+	public Source createSource(String tableName, IRI referenceFormulation) {
+		return new SourceImpl(rdf, tableName, referenceFormulation);
 	}
 
 	@Override
@@ -147,19 +147,18 @@ public class MappingFactoryImpl implements MappingFactory {
     public ObjectMap createObjectMap(RDFTerm constant) {
         return new ObjectMapImpl(rdf, constant);
     }
+
+	public ObjectMap createObjectMap(ArrayList<RDFTerm> columns){
+		return new ObjectMapImpl(rdf,columns);
+	}
 	
 	public RefObjectMap createRefObjectMap(TriplesMap parentMap) {
 		return new RefObjectMapImpl(rdf, parentMap);
 	}
 
 	@Override
-	public Join createJoinCondition(JoinObject child, JoinObject parent) {
+	public Join createJoinCondition(String child, String parent) {
 		return new JoinImpl(rdf, child, parent);
-	}
-
-	@Override
-	public JoinObject createJoinObject(ArrayList<String> columns, String functions) {
-		return new JoinObjectImpl(rdf, columns, functions);
 	}
 
 	@Override

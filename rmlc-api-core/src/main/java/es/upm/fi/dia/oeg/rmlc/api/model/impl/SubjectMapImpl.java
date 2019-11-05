@@ -187,4 +187,6 @@ public class SubjectMapImpl extends TermMapImpl implements SubjectMap {
     public List<IRI> getValidTermTypes() {
         return validTermTypes;
     }
+
+
 }

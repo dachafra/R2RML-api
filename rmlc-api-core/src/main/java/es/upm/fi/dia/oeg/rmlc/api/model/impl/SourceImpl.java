@@ -23,7 +23,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import es.upm.fi.dia.oeg.rmlc.api.model.R2RMLVocabulary;
-import es.upm.fi.dia.oeg.rmlc.api.model.SQLBaseTableOrView;
+import es.upm.fi.dia.oeg.rmlc.api.model.Source;
+import org.apache.commons.rdf.api.IRI;
 import org.apache.commons.rdf.api.RDF;
 import org.apache.commons.rdf.api.Triple;
 
@@ -32,35 +33,53 @@ import org.apache.commons.rdf.api.Triple;
  * 
  * @author Marius Strandhaug
  */
-public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseTableOrView {
+public class SourceImpl extends LogicalSourceImpl implements Source {
 
-	String table;
+	String source;
 
-	public SQLBaseTableOrViewImpl(RDF c, String tableName) {
+	private IRI referenceFormulation;
+
+	public SourceImpl(RDF c, String sourceName, IRI referenceFormulation) {
 		super(c);
 
-		setTableName(tableName);
+		setSourceName(sourceName);
+
+		setReferenceFormulation(referenceFormulation);
 
         setNode(getRDF().createBlankNode());
 	}
 
 	@Override
-	public void setTableName(String tableName) {
-		if (tableName != null) {
-			table = tableName;
+	public void setSourceName(String sourceName) {
+		if (sourceName != null) {
+			source = sourceName;
 		} else {
-			throw new NullPointerException("A SQLBaseTableOrView must have a table name.");
+			throw new NullPointerException("A source must have a source path.");
 		}
 	}
 
 	@Override
-	public String getTableName() {
-		return table;
+	public String getSourceName() {
+		return source;
+	}
+
+	@Override
+	public IRI getReferenceFormulation() {
+		return referenceFormulation;
+	}
+
+	@Override
+	public void setReferenceFormulation(IRI referenceFormulation) {
+		if (referenceFormulation != null) {
+			this.referenceFormulation = referenceFormulation;
+		} else {
+			throw new NullPointerException("A Logical Source must have a Reference Formulation name.");
+		}
 	}
 
 	@Override
 	public String getSQLQuery() {
-		return "SELECT * FROM " + table;
+		return "SELECT * FROM " + source;
 	}
 
 	@Override
@@ -70,7 +89,7 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
         stmtSet.add(getRDF().createTriple(node, getRDF().createIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), getRDF().createIRI(R2RMLVocabulary.TYPE_BASE_TABLE_OR_VIEW)));
 
         stmtSet.add(getRDF().createTriple(node, getRDF().createIRI(R2RMLVocabulary.PROP_TABLE_NAME),
-                getRDF().createLiteral(getTableName())));
+                getRDF().createLiteral(getSourceName())));
 
 		return stmtSet;
 	}
@@ -80,7 +99,7 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((node == null) ? 0 : node.hashCode());
-		result = prime * result + ((table == null) ? 0 : table.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
 
@@ -92,10 +111,10 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
 		if (obj == null)
 			return false;
 
-		if (!(obj instanceof SQLBaseTableOrViewImpl))
+		if (!(obj instanceof SourceImpl))
 			return false;
 
-		SQLBaseTableOrViewImpl other = (SQLBaseTableOrViewImpl) obj;
+		SourceImpl other = (SourceImpl) obj;
 		if (node == null) {
 			if (other.node != null) {
 				return false;
@@ -104,11 +123,11 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
 			return false;
 		}
 
-		if (table == null) {
-			if (other.table != null) {
+		if (source == null) {
+			if (other.source != null) {
 				return false;
 			}
-		} else if (!table.equals(other.table)) {
+		} else if (!source.equals(other.source)) {
 			return false;
 		}
 
@@ -117,7 +136,7 @@ public class SQLBaseTableOrViewImpl extends LogicalTableImpl implements SQLBaseT
 
 	@Override
 	public String toString() {
-		return "SQLBaseTableOrViewImpl [table=" + table + ", node=" + node + "]";
+		return "SQLBaseTableOrViewImpl [table=" + source + ", node=" + node + "]";
 	}
 
 }

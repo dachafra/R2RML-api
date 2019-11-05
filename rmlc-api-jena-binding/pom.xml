@@ -2,16 +2,16 @@
 	<parent>
 		<artifactId>rmlc-api-parent</artifactId>
 		<groupId>es.upm.fi.dia.oeg.rmlc</groupId>
-		<version>0.6.1-SNAPSHOT</version>
+		<version>1.5.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>rmlc-api-jena-binding</artifactId>
 	<packaging>jar</packaging>
-	<version>0.6.1-SNAPSHOT</version>
+	<version>1.5.1</version>
 	<name>RMLC API - Jena binding</name>
 	<properties>
-		<jena.version>3.1.1</jena.version>
+		<jena.version>3.7.0</jena.version>
 	</properties>
 	<dependencies>
         <dependency>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>es.upm.fi.dia.oeg.rmlc</groupId>
 			<artifactId>rmlc-api-core</artifactId>
-			<version>0.6.1-SNAPSHOT</version>
+			<version>1.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

@@ -19,21 +19,21 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model.impl;
 
-import es.upm.fi.dia.oeg.rmlc.api.model.LogicalTable;
+import es.upm.fi.dia.oeg.rmlc.api.model.LogicalSource;
 import org.apache.commons.rdf.api.RDF;
 
 /**
  * The abstract superclass for R2RMLViewImpl and SQLBaseTableOrViewImpl.
- * 
- * @author Marius Strandhaug
+ *
+ * @author David Chaves
  */
-public abstract class LogicalTableImpl extends MappingComponentImpl implements LogicalTable {
+public abstract class LogicalSourceImpl extends MappingComponentImpl implements LogicalSource {
 
-	public LogicalTableImpl(RDF rdf) {
+
+	public LogicalSourceImpl(RDF rdf) {
 		super(rdf);
 	}
 
 	@Override
 	public abstract String getSQLQuery();
-
 }

@@ -19,29 +19,25 @@
  ******************************************************************************/
 package es.upm.fi.dia.oeg.rmlc.api.model;
 
+
+
 /**
- * A logical tables' SQL base table or view.
+ * R2RML Logical Table
  * 
- * @author Marius Strandhaug
+ * @author David Chaves
  */
-@W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_BASE_TABLE_OR_VIEW)
-public interface SQLBaseTableOrView extends LogicalTable {
+@W3C_R2RML_Recommendation(R2RMLVocabulary.TYPE_SOURCE_TABLE)
+public interface LogicalSource extends MappingComponent {
 
 	/**
-	 * Sets the SQL base table or view of this SQLBaseTableOrView.
+	 * Returns the effective SQL query of this LogicalTable. The effective SQL
+	 * query of a R2RMLView is it's own SQL query. For a SQLBaseTableOrView it's
+	 * "SELECT * FROM {table}".
 	 * 
-	 * @param tableName
-	 *            The name of the SQL base table or view.
-	 * @throws NullPointerException
-	 *             If tableName is null.
+	 * @return The effective SQL query of this LogicalTable.
 	 */
-	public void setTableName(String tableName);
+    @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_SQL_QUERY)
+	public String getSQLQuery();
 
-	/**
-	 * Gets the name of the SQL base table or view.
-	 * 
-	 * @return The table or view name of this SQLBaseTableOrView.
-	 */
-	public String getTableName();
 
 }

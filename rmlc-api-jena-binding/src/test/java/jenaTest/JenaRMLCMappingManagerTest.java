@@ -15,7 +15,7 @@ public class JenaRMLCMappingManagerTest {
     public void test (){
         JenaRMLCMappingManager mm = JenaRMLCMappingManager.getInstance();
         Model m = ModelFactory.createDefaultModel();
-        m = m.read("path/to/rmlc/mapping");
+        m = m.read("../example-rmlc.ttl");
         try {
             Collection<TriplesMap> triplesMaps = mm.importMappings(m);
         } catch (InvalidRMLCMappingException e) {

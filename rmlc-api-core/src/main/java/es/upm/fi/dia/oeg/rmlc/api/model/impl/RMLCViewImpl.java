@@ -37,7 +37,7 @@ import org.apache.commons.rdf.api.Triple;
  * 
  * @author Marius Strandhaug
  */
-public class RMLCViewImpl extends LogicalTableImpl implements RMLCView {
+public class RMLCViewImpl extends LogicalSourceImpl implements RMLCView {
 
     @W3C_R2RML_Recommendation(R2RMLVocabulary.PROP_SQL_QUERY)
     private String sqlQuery;
@@ -74,6 +74,7 @@ public class RMLCViewImpl extends LogicalTableImpl implements RMLCView {
 	public String getSQLQuery() {
 		return sqlQuery;
 	}
+
 
 	@Override
 	public IRI getSQLVersion(int index) {

@@ -38,7 +38,7 @@ public interface Join extends MappingComponent {
 	 *             If columnNames are null.
 	 */
 	@W3C_R2RML_Recommendation(RMLCVocabulary.PROP_CHILD)
-	public void setChild(JoinObject child);
+	public void setChild(String child);
 
 	/**
 	 * Set the parent to a column that exists in the logical table of the
@@ -50,7 +50,7 @@ public interface Join extends MappingComponent {
 	 *             If columnNames are null.
 	 */
     @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_PARENT)
-	public void setParent(JoinObject parent);
+	public void setParent(String parent);
 
 	/**
 	 * Get the child for this Join.
@@ -58,7 +58,7 @@ public interface Join extends MappingComponent {
 	 * @return The child associated with this Join.
 	 */
     @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_CHILD)
-	public JoinObject getChild();
+	public String getChild();
 
 	/**
 	 * Get the parent for this Join.
@@ -66,6 +66,6 @@ public interface Join extends MappingComponent {
 	 * @return The parent associated with this Join.
 	 */
     @W3C_R2RML_Recommendation(RMLCVocabulary.PROP_PARENT)
-	public JoinObject getParent();
+	public String getParent();
 
 }
